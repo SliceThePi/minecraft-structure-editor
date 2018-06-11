@@ -108,7 +108,10 @@ module.exports = {
 
             for (let i = 0; i < firstPalettes.length; i++)
                 for (let k = 0; k < secondPalettes.length; k++)
-                    outputPalettes.push(firstPalettes[i].value.concat(secondPalettes[k]));
+                    outputPalettes.push({
+                        "type": "compound",
+                        "value": firstPalettes[i].value.concat(secondPalettes[k].value)
+                    });
 
             output.value["palettes"].value.value = outputPalettes;
         }

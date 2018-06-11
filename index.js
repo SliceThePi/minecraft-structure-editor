@@ -26,8 +26,7 @@ clear
     Restarts progress after confirming that you really want to.
 exit
     Exits the program after confirming that you really want to.
-
-If an argument needs spaces, "put it in quotes".`);
+`);
 
 let author = "SliceThePi";
 let source = process.cwd();
@@ -95,6 +94,10 @@ readlineSync.promptCLLoop({
                     "Warning: loading multiple palettes for multiple structures results\n" +
                     "in an exponential number of palettes in the output structure!\n" +
                     "Type 0 to load all of them, or a number 1 - " + len + " to load just one: ");
+                if (isNaN(response)) {
+                    console.log("Not sure what you meant, so not loading the structure.");
+                    return;
+                }
                 if (response != "0") {
                     data = structureEditor.pickPalette(data, response - 1);
                 }
@@ -117,6 +120,10 @@ readlineSync.promptCLLoop({
             console.log("Unable to load structure!");
     },
     "shift": (x, y, z) => {
+        if (!structure) {
+            console.log("You don't have anything loaded! You can't shift the structure.");
+            return;
+        }
         let coords = [x, y, z];
         if (coords.every(item => !isNaN(item))) {
             coords = coords.map(item => Math.floor(item));
@@ -127,6 +134,10 @@ readlineSync.promptCLLoop({
             console.log("Invalid coordinates. Example command: shift 18 2 -6");
     },
     "save": (filename) => {
+        if (!structure) {
+            console.log("You don't have anything loaded! You can't save anything.");
+            return;
+        }
         if (!filename) {
             console.log("Please provide a file name!");
             return;
@@ -145,8 +156,9 @@ readlineSync.promptCLLoop({
             console.log("Unable to save structure!");
     },
     "clear": () => {
-        if (confirm("restart your progress")) {
+        if (confirm("clear the structure and reset the origin")) {
             structure = undefined;
+            origin = [0, 0, 0];
             console.log("Alright, the structure has been reset!");
         }
         else
