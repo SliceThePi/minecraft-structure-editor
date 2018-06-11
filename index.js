@@ -80,20 +80,14 @@ readlineSync.promptCLLoop({
             console.log("Invalid coordinates. Example command: origin 23 -5 1");
     },
     "load": (filename) => {
-        //for copy/pasting:
-        //load example-structures/shipwreck/with_mast.nbt
-        //load example-structures/end_city/tower_top.nbt
-        //TODO remove that ^
         if (!filename) {
             console.log("Please provide a file name!");
             return;
         }
+        if (!filename.endsWith(".nbt"))
+            filename += ".nbt";
         let data = structureEditor.load(path.join(source, filename));
         if (data) {
-            //fs.writeFileSync("test.txt", JSON.stringify(data.value["palettes"], null, 4), "UTF8");
-            //fs.writeFileSync("test.txt", JSON.stringify(data.value["palette"], null, 4), "UTF8");
-            fs.writeFileSync("test.txt", JSON.stringify(data.value["blocks"], null, 4), "UTF8");
-            //TODO remove that ^
             if (!structureEditor.hasOnePalette(data)) {
                 let len = data.value["palettes"].value.value.length;
                 let response = readlineSync.question("This structure has " + len + " palettes.\n" +
@@ -137,6 +131,8 @@ readlineSync.promptCLLoop({
             console.log("Please provide a file name!");
             return;
         }
+        if (!filename.endsWith(".nbt"))
+            filename += ".nbt";
         let filepath = path.join(source, filename);
         if (fs.existsSync(filepath) && fs.statSync(filepath).isFile() && !confirm("overwrite the file \"" + filepath + "\"")) {
             console.log("Alright, not saving!");

@@ -1,6 +1,6 @@
 {
   "name": "minecraft-structure-editor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Node.JS-based Minecraft structure file editor.",
   "main": "index.js",
   "scripts": {
