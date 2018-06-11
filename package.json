@@ -1,0 +1,22 @@
+{
+  "name": "minecraft-structure-editor",
+  "version": "1.0.0",
+  "description": "A Node.JS-based Minecraft structure file editor.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SliceThePi/minecraft-structure-editor.git"
+  },
+  "author": "SliceThePi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SliceThePi/minecraft-structure-editor/issues"
+  },
+  "homepage": "https://github.com/SliceThePi/minecraft-structure-editor#readme",
+  "dependencies": {
+    "readline-sync": "^1.4.9"
+  }
+}
