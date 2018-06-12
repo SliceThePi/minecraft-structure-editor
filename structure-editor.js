@@ -79,6 +79,8 @@ module.exports = {
      */
     "combine": (first, second, offset) => {
         let output = first;
+        let blocksInFirst = first.value["blocks"].value.value.length;
+        let blocks;
         if (first.value["palette"] && second.value["palette"]) {
             let len = first.value["palette"].value.value.length;
             let secondBlocks = second.value["blocks"].value.value;
@@ -88,7 +90,7 @@ module.exports = {
                     secondBlocks[i]["pos"].value.value[k] += offset[k];
             }
             output.value["palette"].value.value = first.value["palette"].value.value.concat(second.value["palette"].value.value);
-            output.value["blocks"].value.value = first.value["blocks"].value.value.concat(secondBlocks);
+            blocks = first.value["blocks"].value.value.concat(secondBlocks);
         }
         else {
             first = makeMultiple(first);
@@ -104,7 +106,7 @@ module.exports = {
                 for (let k = 0; k < 3; k++)
                     secondBlocks[i]["pos"].value.value[k] += offset[k];
             }
-            output.value["blocks"].value.value = first.value["blocks"].value.value.concat(secondBlocks);
+            blocks = first.value["blocks"].value.value.concat(secondBlocks);
 
             for (let i = 0; i < firstPalettes.length; i++)
                 for (let k = 0; k < secondPalettes.length; k++)
@@ -123,6 +125,21 @@ module.exports = {
             }
         }
         output.value["entities"].value.value = output.value["entities"].value.value.concat(secondEntities);
+
+        let positions = [];
+        for (let i = blocksInFirst; i < blocks.length; i++) {
+            positions.push(blocks[i]["pos"].value.value);
+        }
+        //remove collisions
+        for (let i = blocksInFirst - 1; i >= 0; i--)
+            if (positions.find((item) => item[0] == blocks[i]["pos"].value.value[0] &&
+                    item[1] == blocks[i]["pos"].value.value[1] &&
+                    item[2] == blocks[i]["pos"].value.value[2])) {
+                blocks.splice(i, 1);
+            }
+
+        output.value["blocks"].value.value = blocks;
+
         return output;
     }
 }
